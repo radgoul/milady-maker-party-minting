@@ -45,6 +45,8 @@ export default function Index() {
       
       // Show success after "minting" completes
       setMintSuccess(true);
+      const bombSound = new Audio("/bomb-has-been-planted-sound-effect-cs-go.mp3");
+      bombSound.play();
       
       // Reset after 3 seconds
       setTimeout(() => setMintSuccess(false), 3000);
