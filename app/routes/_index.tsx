@@ -32,6 +32,8 @@ export default function Index() {
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [showOrders, setShowOrders] = useState(false);
   const [allOrders, setAllOrders] = useState<any[]>([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
 
   useEffect(() => {
     void metaMask.connectEagerly().catch(() => {
@@ -45,12 +47,61 @@ export default function Index() {
 
 
 
+  const validateForm = () => {
+    const errors: string[] = [];
+    
+    if (mintType === 'identified') {
+      if (!shippingData.fullName.trim()) errors.push("Full name is required");
+      if (!shippingData.streetAddress.trim()) errors.push("Street address is required");
+      if (!shippingData.city.trim()) errors.push("City is required");
+      if (!shippingData.state.trim()) errors.push("State is required");
+      if (!shippingData.zipCode.trim()) errors.push("ZIP code is required");
+      if (!shippingData.country.trim()) errors.push("Country is required");
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!shippingData.email.trim()) {
+        errors.push("Email is required");
+      } else if (!emailRegex.test(shippingData.email)) {
+        errors.push("Please enter a valid email address");
+      }
+      
+      // ZIP code validation (basic US format)
+      const zipRegex = /^\d{5}(-\d{4})?$/;
+      if (shippingData.country.toLowerCase() === 'usa' || shippingData.country.toLowerCase() === 'united states') {
+        if (!zipRegex.test(shippingData.zipCode)) {
+          errors.push("Please enter a valid US ZIP code (e.g., 12345 or 12345-6789)");
+        }
+      }
+    }
+    
+    setFormErrors(errors);
+    return errors.length === 0;
+  };
+
   const handleMint = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate form first
+    if (!validateForm()) {
+      return;
+    }
+    
+    // Show confirmation for shipping orders
+    if (mintType === 'identified') {
+      setShowConfirmation(true);
+      return;
+    }
+    
+    // Proceed with anonymous mint
+    await processMint();
+  };
+
+  const processMint = async () => {
     // Show minting in progress
     setMintSuccess(false);
     setOrderDetails(null);
+    setShowConfirmation(false);
     
     try {
       // Create order details
@@ -135,8 +186,10 @@ export default function Index() {
         </div>
         
         <h1 className="text-6xl font-bold mb-8 text-center goosebumps-font text-red-500">
-          MAKE AMERICA GOUL AGAIN!!! 🎉🔥
+          MAKE AMERICA GOUL AGAIN!!!
         </h1>
+        
+
         
 
         
@@ -174,7 +227,6 @@ export default function Index() {
         )}
         
         <div className="mb-8">
-          <h2 className="text-2xl mb-4">Connect Wallet</h2>
           {isActive ? (
             <div className="text-center">
               <div className="text-green-400 text-xl mb-4">✅ Wallet Connected!</div>
@@ -209,7 +261,6 @@ export default function Index() {
 
         {isActive && (
           <div className="mb-8">
-            <h2 className="text-2xl mb-4">Mint Shirt NFT</h2>
             <form className="space-y-4" onSubmit={handleMint}>
               <div>
                 <label className="block mb-2">Mint Type</label>
@@ -230,66 +281,100 @@ export default function Index() {
               </div>
 
               <div id="identified-fields" className={`${mintType === 'identified' ? 'block' : 'hidden'} space-y-4`}>
+                <div className="p-4 bg-gray-900 rounded-lg border border-purple-500 mb-4">
+                  <h3 className="text-purple-400 font-bold mb-2">📦 Shipping Information</h3>
+                  <p className="text-sm text-gray-400 mb-3">
+                    Please double-check your information carefully. This will be used to ship your physical shirt.
+                  </p>
+                </div>
+                
                 <div>
-                  <label className="block mb-2 text-purple-400">Shipping Information</label>
+                  <label className="block mb-2 text-purple-400">Full Name *</label>
                   <input 
                     type="text" 
-                    placeholder="Full Name" 
+                    placeholder="Enter your full legal name" 
                     value={shippingData.fullName}
                     onChange={(e) => setShippingData({...shippingData, fullName: e.target.value})}
                     className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
                   />
                 </div>
                 <div>
+                  <label className="block mb-2 text-purple-400">Street Address *</label>
                   <input 
                     type="text" 
-                    placeholder="Street Address" 
+                    placeholder="123 Main Street, Apt 4B" 
                     value={shippingData.streetAddress}
                     onChange={(e) => setShippingData({...shippingData, streetAddress: e.target.value})}
                     className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <input 
-                    type="text" 
-                    placeholder="City" 
-                    value={shippingData.city}
-                    onChange={(e) => setShippingData({...shippingData, city: e.target.value})}
-                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
-                  />
-                  <input 
-                    type="text" 
-                    placeholder="State" 
-                    value={shippingData.state}
-                    onChange={(e) => setShippingData({...shippingData, state: e.target.value})}
-                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
-                  />
+                  <div>
+                    <label className="block mb-2 text-purple-400">City *</label>
+                    <input 
+                      type="text" 
+                      placeholder="New York" 
+                      value={shippingData.city}
+                      onChange={(e) => setShippingData({...shippingData, city: e.target.value})}
+                      className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-purple-400">State/Province *</label>
+                    <input 
+                      type="text" 
+                      placeholder="NY" 
+                      value={shippingData.state}
+                      onChange={(e) => setShippingData({...shippingData, state: e.target.value})}
+                      className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                    />
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <input 
-                    type="text" 
-                    placeholder="ZIP Code" 
-                    value={shippingData.zipCode}
-                    onChange={(e) => setShippingData({...shippingData, zipCode: e.target.value})}
-                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
-                  />
-                  <input 
-                    type="text" 
-                    placeholder="Country" 
-                    value={shippingData.country}
-                    onChange={(e) => setShippingData({...shippingData, country: e.target.value})}
-                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
-                  />
+                  <div>
+                    <label className="block mb-2 text-purple-400">ZIP/Postal Code *</label>
+                    <input 
+                      type="text" 
+                      placeholder="10001" 
+                      value={shippingData.zipCode}
+                      onChange={(e) => setShippingData({...shippingData, zipCode: e.target.value})}
+                      className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-purple-400">Country *</label>
+                    <input 
+                      type="text" 
+                      placeholder="USA" 
+                      value={shippingData.country}
+                      onChange={(e) => setShippingData({...shippingData, country: e.target.value})}
+                      className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                    />
+                  </div>
                 </div>
                 <div>
+                  <label className="block mb-2 text-purple-400">Email Address *</label>
                   <input 
                     type="email" 
-                    placeholder="Email (for shipping updates)" 
+                    placeholder="your.email@example.com" 
                     value={shippingData.email}
                     onChange={(e) => setShippingData({...shippingData, email: e.target.value})}
                     className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
                   />
+                  <p className="text-xs text-gray-400 mt-1">We'll use this to send you shipping updates</p>
                 </div>
+                
+                {/* Error Display */}
+                {formErrors.length > 0 && (
+                  <div className="p-4 bg-red-900 border border-red-500 rounded-lg">
+                    <h4 className="text-red-400 font-bold mb-2">⚠️ Please fix the following errors:</h4>
+                    <ul className="text-red-300 text-sm space-y-1">
+                      {formErrors.map((error, index) => (
+                        <li key={index}>• {error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
               <button type="submit" className="bg-purple-600 px-6 py-3 text-lg font-bold rounded-lg hover:bg-purple-700 transition-colors">
@@ -381,6 +466,55 @@ export default function Index() {
           )}
         </div>
         )}
+
+        {/* Confirmation Dialog */}
+        {showConfirmation && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-900 p-6 rounded-lg border border-purple-500 max-w-md mx-4">
+              <h3 className="text-xl font-bold mb-4 text-purple-400">📦 Confirm Shipping Information</h3>
+              
+              <div className="mb-4 text-sm">
+                <p className="text-gray-300 mb-3">Please review your shipping information:</p>
+                <div className="bg-gray-800 p-3 rounded border border-gray-600">
+                  <p><strong>Name:</strong> {shippingData.fullName}</p>
+                  <p><strong>Address:</strong> {shippingData.streetAddress}</p>
+                  <p><strong>City:</strong> {shippingData.city}, {shippingData.state} {shippingData.zipCode}</p>
+                  <p><strong>Country:</strong> {shippingData.country}</p>
+                  <p><strong>Email:</strong> {shippingData.email}</p>
+                </div>
+              </div>
+              
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowConfirmation(false)}
+                  className="flex-1 bg-gray-600 px-4 py-2 rounded hover:bg-gray-500 transition-colors"
+                >
+                  Edit Information
+                </button>
+                <button
+                  onClick={processMint}
+                  className="flex-1 bg-purple-600 px-4 py-2 rounded hover:bg-purple-700 transition-colors"
+                >
+                  Confirm & Mint
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Small Twitter Support Link */}
+        <div className="text-center mt-8 pt-4 border-t border-gray-700">
+          <p className="text-xs text-gray-500">
+            Questions? <a 
+              href="https://x.com/0xGouL" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-gray-300 underline"
+            >
+              @0xGouL
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
