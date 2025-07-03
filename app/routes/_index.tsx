@@ -449,7 +449,7 @@ export default function Index() {
                         <div>
                           <label className="block text-sm font-medium mb-1">Country</label>
                           <select
-                            value={shippingInfo.country}
+                            value={shippingInfo.country === "Other" ? "" : shippingInfo.country}
                             onChange={(e) => setShippingInfo({...shippingInfo, country: e.target.value})}
                             className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                           >
@@ -480,6 +480,15 @@ export default function Index() {
                             <option value="Taiwan">Taiwan</option>
                             <option value="Other">Other</option>
                           </select>
+                          {shippingInfo.country === "Other" && (
+                            <input
+                              type="text"
+                              value={shippingInfo.country === "Other" ? "" : shippingInfo.country}
+                              onChange={(e) => setShippingInfo({...shippingInfo, country: e.target.value})}
+                              className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white mt-2"
+                              placeholder="Enter your country name"
+                            />
+                          )}
                         </div>
                       </div>
                       
