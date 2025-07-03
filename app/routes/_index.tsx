@@ -329,15 +329,23 @@ export default function Index() {
     </div>
 
               {!showMintForm ? (
-                <button
-                  onClick={() => setShowMintForm(true)}
-                  className="text-2xl font-bold px-8 py-4 border-2 border-purple-500 rounded-lg transition-all duration-300 goosebumps-font bg-transparent text-purple-500 hover:bg-purple-500 hover:text-white cursor-pointer"
-                >
-                  MINT SHIRT NFT
-                </button>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-yellow-400 mb-4 goosebumps-font">
+                    MINT PRICE: 0.015 ETH
+                  </div>
+                  <button
+                    onClick={() => setShowMintForm(true)}
+                    className="text-2xl font-bold px-8 py-4 border-2 border-purple-500 rounded-lg transition-all duration-300 goosebumps-font bg-transparent text-purple-500 hover:bg-purple-500 hover:text-white cursor-pointer"
+                  >
+                    MINT SHIRT NFT
+                  </button>
+                </div>
               ) : (
                 <div className="bg-gray-900 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-2xl font-bold mb-4 text-purple-400">Mint Your GOUL Shirt NFT</h3>
+                  <div className="text-xl font-bold text-yellow-400 mb-4 text-center">
+                    MINT PRICE: 0.015 ETH
+                  </div>
           
                   <div className="mb-4">
                     <label className="flex items-center">
@@ -546,6 +554,9 @@ export default function Index() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-gray-900 p-6 rounded-lg border border-gray-700 max-w-md">
               <h3 className="text-xl font-bold mb-4 text-purple-400">Confirm Mint</h3>
+              <div className="text-lg font-bold text-yellow-400 mb-4 text-center">
+                MINT PRICE: 0.015 ETH
+              </div>
               <p className="mb-4 text-gray-300">
                 Are you sure you want to mint your GOUL Shirt NFT?
                 {!isAnonymous && " Your shipping information will be saved."}
