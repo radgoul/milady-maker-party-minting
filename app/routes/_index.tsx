@@ -330,7 +330,7 @@ export default function Index() {
 
               {!showMintForm ? (
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-yellow-400 mb-4 goosebumps-font">
+                  <div className="text-3xl font-bold text-yellow-400 mb-4">
                     MINT PRICE: 0.015 ETH
                   </div>
                   <button
