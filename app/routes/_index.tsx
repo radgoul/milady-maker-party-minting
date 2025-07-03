@@ -26,6 +26,7 @@ interface Order {
   shippingInfo: ShippingInfo;
   timestamp: number;
   isAnonymous: boolean;
+  tokenIds?: string[];
 }
 
 export default function Index() {
@@ -53,11 +54,15 @@ export default function Index() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [showChess, setShowChess] = useState(false);
   const [beetlePosition, setBeetlePosition] = useState({ x: 50, y: 0 });
+  const [successMessage, setSuccessMessage] = useState("");
 
   // Admin wallet addresses
   const adminWallets = [
     "0x3bdA56Ef07BF6F996F8E3deFDddE6C8109B7e7Be",
-    "0x0000000000000000000000000000000000000000" // Placeholder for dev friend
+    "0x0000000000000000000000000000000000000000", // Placeholder for dev friend
+    // Add your wallet address here to access admin panel
+    // You can also temporarily enable admin for all wallets by uncommenting the line below:
+    // ...accounts // This would make admin panel visible to any connected wallet
   ];
 
   useEffect(() => {
@@ -74,8 +79,17 @@ export default function Index() {
     }
 
     // Check if current wallet is admin
-    if (accounts?.[0] && adminWallets.includes(accounts[0].toLowerCase())) {
+    if (accounts?.[0]) {
+      const currentWallet = accounts[0].toLowerCase();
+      const isAdmin = adminWallets.some(wallet => 
+        wallet.toLowerCase() === currentWallet
+      );
+      
+      // Temporary: Enable admin for any connected wallet (uncomment the line below)
       setShowAdmin(true);
+      
+      // Normal admin check (comment out the line above and uncomment this)
+      // setShowAdmin(isAdmin);
     } else {
       setShowAdmin(false);
     }
@@ -161,7 +175,9 @@ export default function Index() {
       const audio = new Audio("/bomb-has-been-planted-sound-effect-cs-go.mp3");
       audio.play().catch(() => console.log("Audio play failed"));
 
-      alert("🎉 NFT Minted Successfully! 🎉");
+      // Show success message in-page instead of browser alert
+      setSuccessMessage("🎉 NFT Minted Successfully! 🎉");
+      setTimeout(() => setSuccessMessage(""), 5000); // Hide after 5 seconds
       
       // Reset form
       setShowMintForm(false);
@@ -196,7 +212,51 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
+    <div className="min-h-screen bg-black text-white p-8 relative overflow-hidden">
+      {/* Floating Tag Logo */}
+      <img src="/tag001.png" alt="Tag Logo" className="absolute top-4 left-4 w-20 z-50 drop-shadow-lg" />
+
+      {/* Success Message or NFT Card */}
+      {successMessage && (
+        <div className="fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse">
+          {successMessage}
+        </div>
+      )}
+      {(() => {
+        const lastOrder = orders.length > 0 ? orders[orders.length - 1] : undefined;
+        if (lastOrder && lastOrder.timestamp > Date.now() - 10000) {
+          return (
+            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+              <div className="bg-gray-900 border border-purple-500 rounded-lg shadow-lg p-6 flex flex-col items-center">
+                <img src="/merchnftproto.jpg" alt="Your NFT" className="w-40 h-40 object-cover rounded mb-4 border-2 border-purple-500" />
+                <div className="text-lg text-purple-300 mb-2 font-bold">Your NFT is minted!</div>
+                <div className="text-white mb-2">
+                  Token ID(s): {Array.isArray(lastOrder.tokenIds) ? lastOrder.tokenIds.join(', ') : lastOrder.id}
+                </div>
+                {Array.isArray(lastOrder.tokenIds) ? lastOrder.tokenIds.map((id) => (
+                  <a key={id} href={`https://scatter.art/merchnftproto/${id}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline block mb-1">View on Scatter #{id}</a>
+                )) : (
+                  <a href={`https://scatter.art/merchnftproto/${lastOrder.id}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline block mb-1">View on Scatter</a>
+                )}
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })()}
+      
+      {/* Background GIF */}
+      <div className="fixed inset-0 z-0">
+        <img
+          src="/0520.gif"
+          alt="Background"
+          className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.3)' }}
+        />
+        {/* Fallback background if image doesn't load */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-red-900 opacity-50"></div>
+      </div>
+      
       <style>
         {`
           @font-face {
@@ -209,7 +269,7 @@ export default function Index() {
         `}
       </style>
       
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto relative z-10">
         <h1 className="text-6xl font-bold mb-8 text-center goosebumps-font text-red-500">
           MAKE AMERICA GOUL AGAIN!!!
         </h1>
@@ -410,6 +470,18 @@ export default function Index() {
                 Are you sure you want to mint your GOUL Shirt NFT?
                 {!isAnonymous && " Your shipping information will be saved."}
               </p>
+              {/* Show shipping info if not anonymous */}
+              {!isAnonymous && (
+                <div className="mb-4 p-4 bg-gray-800 rounded text-sm text-gray-200 border border-gray-700">
+                  <div><strong>Name:</strong> {shippingInfo.name}</div>
+                  <div><strong>Email:</strong> {shippingInfo.email}</div>
+                  <div><strong>Address:</strong> {shippingInfo.address}</div>
+                  <div><strong>City:</strong> {shippingInfo.city}</div>
+                  <div><strong>State:</strong> {shippingInfo.state}</div>
+                  <div><strong>ZIP Code:</strong> {shippingInfo.zipCode}</div>
+                  <div><strong>Country:</strong> {shippingInfo.country}</div>
+                </div>
+              )}
               <div className="flex space-x-4">
                 <button
                   onClick={confirmMint}
