@@ -63,6 +63,8 @@ export default function Index() {
     // Example: "0xYOUR_WALLET_ADDRESS_HERE"
   ];
 
+  const ADMIN_WALLET = adminWallets[0];
+
   useEffect(() => {
     void metaMask.connectEagerly().catch(() => {
       console.debug("Failed to connect eagerly to metamask");
@@ -70,12 +72,6 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    // Load orders from localStorage
-    const savedOrders = localStorage.getItem("goulOrders");
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
-    }
-
     // Check if current wallet is admin
     if (accounts?.[0]) {
       const currentWallet = accounts[0].toLowerCase();
@@ -92,6 +88,30 @@ export default function Index() {
       setShowAdmin(false);
     }
   }, [accounts]);
+
+  // Fetch orders from MongoDB for admin
+  useEffect(() => {
+    async function fetchOrders() {
+      if (showAdmin && accounts?.[0]) {
+        try {
+          const res = await fetch(`/api.orders?wallet=${accounts[0]}`);
+          if (res.ok) {
+            const data = await res.json();
+            setOrders(data.orders || []);
+          } else {
+            // Fall back to local storage if MongoDB fails
+            const localOrders = JSON.parse(localStorage.getItem('goul-orders') || '[]');
+            setOrders(localOrders);
+          }
+        } catch (error) {
+          // Fall back to local storage if MongoDB fails
+          const localOrders = JSON.parse(localStorage.getItem('goul-orders') || '[]');
+          setOrders(localOrders);
+        }
+      }
+    }
+    fetchOrders();
+  }, [showAdmin, accounts]);
 
   // Beetle movement effect
   useEffect(() => {
@@ -164,10 +184,30 @@ export default function Index() {
         isAnonymous
       };
 
-      // Save order
-      const updatedOrders = [...orders, newOrder];
-      setOrders(updatedOrders);
-      localStorage.setItem("goulOrders", JSON.stringify(updatedOrders));
+      // Try to save order to MongoDB, but fall back to local storage if it fails
+      try {
+        const res = await fetch("/api.orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newOrder)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setOrders((prev) => [...prev, data.order]);
+        } else {
+          // Fall back to local storage if MongoDB fails
+          const existingOrders = JSON.parse(localStorage.getItem('goul-orders') || '[]');
+          const updatedOrders = [...existingOrders, newOrder];
+          localStorage.setItem('goul-orders', JSON.stringify(updatedOrders));
+          setOrders((prev) => [...prev, newOrder]);
+        }
+      } catch (error) {
+        // Fall back to local storage if MongoDB fails
+        const existingOrders = JSON.parse(localStorage.getItem('goul-orders') || '[]');
+        const updatedOrders = [...existingOrders, newOrder];
+        localStorage.setItem('goul-orders', JSON.stringify(updatedOrders));
+        setOrders((prev) => [...prev, newOrder]);
+      }
 
       // Play bomb sound
       const audio = new Audio("/bomb-has-been-planted-sound-effect-cs-go.mp3");
