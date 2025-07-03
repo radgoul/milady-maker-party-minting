@@ -300,7 +300,8 @@ export default function Index() {
         )}
 
         {/* Admin Section - View All Orders - Only visible to you */}
-        {accounts?.[0] === "0x3bdA56Ef07BF6F996F8E3deFDddE6C8109B7e7Be" && (
+        {(accounts?.[0] === "0x3bdA56Ef07BF6F996F8E3deFDddE6C8109B7e7Be" || 
+          accounts?.[0] === "YOUR_DEV_FRIEND_WALLET_ADDRESS_HERE") && (
           <div className="mt-12 border-t border-gray-700 pt-8">
             <div className="text-center mb-6">
               <button
