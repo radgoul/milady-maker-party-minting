@@ -19,11 +19,28 @@ export default function Index() {
 
   const [error, setError] = useState<Error>();
   const [mintSuccess, setMintSuccess] = useState(false);
+  const [mintType, setMintType] = useState('anonymous');
+  const [shippingData, setShippingData] = useState({
+    fullName: '',
+    streetAddress: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: '',
+    email: ''
+  });
+  const [orderDetails, setOrderDetails] = useState<any>(null);
+  const [showOrders, setShowOrders] = useState(false);
+  const [allOrders, setAllOrders] = useState<any[]>([]);
 
   useEffect(() => {
     void metaMask.connectEagerly().catch(() => {
       console.debug("Failed to connect eagerly to metamask");
     });
+    
+    // Load existing orders from localStorage
+    const existingOrders = JSON.parse(localStorage.getItem('miladyOrders') || '[]');
+    setAllOrders(existingOrders);
   }, []);
 
 
@@ -33,8 +50,24 @@ export default function Index() {
     
     // Show minting in progress
     setMintSuccess(false);
+    setOrderDetails(null);
     
     try {
+      // Create order details
+      const order = {
+        walletAddress: accounts?.[0] || 'Unknown',
+        mintType: mintType,
+        timestamp: new Date().toISOString(),
+        transactionHash: `0x${Math.random().toString(16).substr(2, 64)}`, // Simulated hash
+        shippingData: mintType === 'identified' ? shippingData : null
+      };
+      
+      // Store order in localStorage (in production, send to your database)
+      const existingOrders = JSON.parse(localStorage.getItem('miladyOrders') || '[]');
+      existingOrders.push(order);
+      localStorage.setItem('miladyOrders', JSON.stringify(existingOrders));
+      setAllOrders(existingOrders);
+      
       // Simulate actual minting process
       // In real implementation, this would be:
       // const tx = await contract.mint(...);
@@ -45,11 +78,28 @@ export default function Index() {
       
       // Show success after "minting" completes
       setMintSuccess(true);
+      setOrderDetails(order);
       const bombSound = new Audio("/bomb-has-been-planted-sound-effect-cs-go.mp3");
       bombSound.play();
       
-      // Reset after 3 seconds
-      setTimeout(() => setMintSuccess(false), 3000);
+      // Reset form
+      if (mintType === 'identified') {
+        setShippingData({
+          fullName: '',
+          streetAddress: '',
+          city: '',
+          state: '',
+          zipCode: '',
+          country: '',
+          email: ''
+        });
+      }
+      
+      // Reset after 5 seconds
+      setTimeout(() => {
+        setMintSuccess(false);
+        setOrderDetails(null);
+      }, 5000);
       
     } catch (error) {
       console.error("Minting failed:", error);
@@ -91,8 +141,35 @@ export default function Index() {
 
         
         {mintSuccess && (
-          <div className="text-center mb-8 text-green-400 text-2xl font-bold">
-            💣 MINT SUCCESSFUL! 💣
+          <div className="text-center mb-8">
+            <div className="text-green-400 text-2xl font-bold mb-4">
+              💣 MINT SUCCESSFUL! 💣
+            </div>
+            {orderDetails && (
+              <div className="bg-gray-900 p-6 rounded-lg border border-green-500 max-w-2xl mx-auto">
+                <h3 className="text-xl font-bold mb-4 text-green-400">Order Details</h3>
+                <div className="text-left space-y-2">
+                  <p><strong>Wallet:</strong> {orderDetails.walletAddress}</p>
+                  <p><strong>Type:</strong> {orderDetails.mintType === 'identified' ? 'With Shipping' : 'Anonymous'}</p>
+                  <p><strong>Transaction:</strong> {orderDetails.transactionHash}</p>
+                  <p><strong>Date:</strong> {new Date(orderDetails.timestamp).toLocaleString()}</p>
+                  
+                  {orderDetails.shippingData && (
+                    <div className="mt-4 p-4 bg-gray-800 rounded border border-purple-500">
+                      <h4 className="font-bold text-purple-400 mb-2">Shipping Information:</h4>
+                      <p><strong>Name:</strong> {orderDetails.shippingData.fullName}</p>
+                      <p><strong>Address:</strong> {orderDetails.shippingData.streetAddress}</p>
+                      <p><strong>City:</strong> {orderDetails.shippingData.city}, {orderDetails.shippingData.state} {orderDetails.shippingData.zipCode}</p>
+                      <p><strong>Country:</strong> {orderDetails.shippingData.country}</p>
+                      <p><strong>Email:</strong> {orderDetails.shippingData.email}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="mt-4 text-sm text-gray-400">
+                  Order saved to local storage. In production, this would be sent to your database.
+                </div>
+              </div>
+            )}
           </div>
         )}
         
@@ -138,7 +215,9 @@ export default function Index() {
                 <label className="block mb-2">Mint Type</label>
                 <select 
                   className="border p-2 w-full" 
+                  value={mintType}
                   onChange={(e) => {
+                    setMintType(e.target.value);
                     const fields = document.getElementById('identified-fields');
                     if (fields) {
                       fields.className = e.target.value === 'identified' ? 'block' : 'hidden';
@@ -150,12 +229,14 @@ export default function Index() {
                 </select>
               </div>
 
-              <div id="identified-fields" className="hidden space-y-4">
+              <div id="identified-fields" className={`${mintType === 'identified' ? 'block' : 'hidden'} space-y-4`}>
                 <div>
                   <label className="block mb-2 text-purple-400">Shipping Information</label>
                   <input 
                     type="text" 
                     placeholder="Full Name" 
+                    value={shippingData.fullName}
+                    onChange={(e) => setShippingData({...shippingData, fullName: e.target.value})}
                     className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
                   />
                 </div>
@@ -163,6 +244,8 @@ export default function Index() {
                   <input 
                     type="text" 
                     placeholder="Street Address" 
+                    value={shippingData.streetAddress}
+                    onChange={(e) => setShippingData({...shippingData, streetAddress: e.target.value})}
                     className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
                   />
                 </div>
@@ -170,11 +253,15 @@ export default function Index() {
                   <input 
                     type="text" 
                     placeholder="City" 
+                    value={shippingData.city}
+                    onChange={(e) => setShippingData({...shippingData, city: e.target.value})}
                     className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
                   />
                   <input 
                     type="text" 
                     placeholder="State" 
+                    value={shippingData.state}
+                    onChange={(e) => setShippingData({...shippingData, state: e.target.value})}
                     className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
                   />
                 </div>
@@ -182,11 +269,15 @@ export default function Index() {
                   <input 
                     type="text" 
                     placeholder="ZIP Code" 
+                    value={shippingData.zipCode}
+                    onChange={(e) => setShippingData({...shippingData, zipCode: e.target.value})}
                     className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
                   />
                   <input 
                     type="text" 
                     placeholder="Country" 
+                    value={shippingData.country}
+                    onChange={(e) => setShippingData({...shippingData, country: e.target.value})}
                     className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
                   />
                 </div>
@@ -194,6 +285,8 @@ export default function Index() {
                   <input 
                     type="email" 
                     placeholder="Email (for shipping updates)" 
+                    value={shippingData.email}
+                    onChange={(e) => setShippingData({...shippingData, email: e.target.value})}
                     className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
                   />
                 </div>
@@ -205,6 +298,86 @@ export default function Index() {
             </form>
           </div>
         )}
+
+        {/* Admin Section - View All Orders */}
+        <div className="mt-12 border-t border-gray-700 pt-8">
+          <div className="text-center mb-6">
+            <button
+              onClick={() => setShowOrders(!showOrders)}
+              className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+            >
+              {showOrders ? 'Hide' : 'View'} All Orders ({allOrders.length})
+            </button>
+          </div>
+
+          {showOrders && (
+            <div className="bg-gray-900 p-6 rounded-lg border border-gray-600">
+              <h3 className="text-xl font-bold mb-4 text-center">📦 All Orders ({allOrders.length})</h3>
+              
+              {allOrders.length === 0 ? (
+                <p className="text-center text-gray-400">No orders yet. Mint some NFTs to see them here!</p>
+              ) : (
+                <div className="space-y-4 max-h-96 overflow-y-auto">
+                  {allOrders.map((order, index) => (
+                    <div key={index} className="bg-gray-800 p-4 rounded border border-gray-600">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <strong>Order #{index + 1}</strong>
+                          <span className={`ml-2 px-2 py-1 text-xs rounded ${
+                            order.mintType === 'identified' ? 'bg-green-600' : 'bg-blue-600'
+                          }`}>
+                            {order.mintType === 'identified' ? 'With Shipping' : 'Anonymous'}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-400">
+                          {new Date(order.timestamp).toLocaleString()}
+                        </span>
+                      </div>
+                      
+                      <p className="text-sm text-gray-300 mb-2">
+                        <strong>Wallet:</strong> {order.walletAddress}
+                      </p>
+                      <p className="text-sm text-gray-300 mb-2">
+                        <strong>Transaction:</strong> {order.transactionHash}
+                      </p>
+                      
+                      {order.shippingData && (
+                        <div className="mt-3 p-3 bg-gray-700 rounded border-l-4 border-purple-500">
+                          <h4 className="font-bold text-purple-400 mb-2">📮 Shipping Info:</h4>
+                          <div className="text-sm text-gray-300 space-y-1">
+                            <p><strong>Name:</strong> {order.shippingData.fullName}</p>
+                            <p><strong>Address:</strong> {order.shippingData.streetAddress}</p>
+                            <p><strong>City:</strong> {order.shippingData.city}, {order.shippingData.state} {order.shippingData.zipCode}</p>
+                            <p><strong>Country:</strong> {order.shippingData.country}</p>
+                            <p><strong>Email:</strong> {order.shippingData.email}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              <div className="mt-4 text-center">
+                <button
+                  onClick={() => {
+                    const dataStr = JSON.stringify(allOrders, null, 2);
+                    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                    const url = URL.createObjectURL(dataBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'milady-orders.json';
+                    link.click();
+                    URL.revokeObjectURL(url);
+                  }}
+                  className="bg-green-600 px-4 py-2 rounded hover:bg-green-700 transition-colors"
+                >
+                  📥 Download Orders JSON
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
