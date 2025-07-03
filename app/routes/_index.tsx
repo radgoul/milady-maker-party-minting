@@ -83,7 +83,7 @@ export default function Index() {
         </div>
         
         <h1 className="text-6xl font-bold mb-8 text-center goosebumps-font text-red-500">
-          MAKE AMERICA GOUL AGAIN
+          MAKE AMERICA GOUL AGAIN!
         </h1>
         
 
