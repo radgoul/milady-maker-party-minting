@@ -294,7 +294,7 @@ export default function Index() {
         {/* Fallback background if image doesn't load */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-red-900 opacity-50"></div>
       </div>
-      
+    
       <style>
         {`
           @font-face {
@@ -318,8 +318,8 @@ export default function Index() {
               <div className="text-green-400 text-xl mb-4">✅ Wallet Connected!</div>
               <div className="text-purple-400 mb-4">
                 Address: {accounts?.[0]?.slice(0, 6)}...{accounts?.[0]?.slice(-4)}
-              </div>
-              
+    </div>
+
               {!showMintForm ? (
                 <button
                   onClick={() => setShowMintForm(true)}
@@ -330,7 +330,7 @@ export default function Index() {
               ) : (
                 <div className="bg-gray-900 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-2xl font-bold mb-4 text-purple-400">Mint Your GOUL Shirt NFT</h3>
-                  
+          
                   <div className="mb-4">
                     <label className="flex items-center">
                       <input
@@ -341,7 +341,7 @@ export default function Index() {
                       />
                       <span>Mint anonymously (no shipping info required)</span>
                     </label>
-                  </div>
+      </div>
 
                   {!isAnonymous && (
                     <div className="space-y-4">
@@ -354,8 +354,8 @@ export default function Index() {
                           className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                           placeholder="Enter your full name"
                         />
-                      </div>
-                      
+    </div>
+      
                       <div>
                         <label className="block text-sm font-medium mb-1">Email *</label>
                         <input
@@ -365,8 +365,8 @@ export default function Index() {
                           className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                           placeholder="Enter your email address"
                         />
-                      </div>
-                      
+      </div>
+
                       <div>
                         <label className="block text-sm font-medium mb-1">Street Address *</label>
                         <input
@@ -375,9 +375,9 @@ export default function Index() {
                           onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
                           className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                           placeholder="Enter your street address"
-                        />
-                      </div>
-                      
+            />
+          </div>
+
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium mb-1">City *</label>
@@ -391,13 +391,13 @@ export default function Index() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">State *</label>
-                          <input
+            <input
                             type="text"
                             value={shippingInfo.state}
                             onChange={(e) => setShippingInfo({...shippingInfo, state: e.target.value})}
                             className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                             placeholder="State"
-                          />
+            />
                         </div>
                       </div>
                       
@@ -421,8 +421,8 @@ export default function Index() {
                             onChange={(e) => setShippingInfo({...shippingInfo, country: e.target.value})}
                             className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                             placeholder="Country"
-                          />
-                        </div>
+            />
+          </div>
                       </div>
                     </div>
                   )}
@@ -446,14 +446,14 @@ export default function Index() {
               )}
             </div>
           ) : (
-            <ConnectWithSelect
-              connector={metaMask}
-              activeChainId={chainId}
-              chainIds={[1, 11155111]}
-              isActivating={isActivating}
-              isActive={isActive}
-              error={error}
-              setError={setError}
+              <ConnectWithSelect
+                connector={metaMask}
+                activeChainId={chainId}
+                chainIds={[1, 11155111]}
+                isActivating={isActivating}
+                isActive={isActive}
+                error={error}
+                setError={setError}
             />
           )}
         </div>
