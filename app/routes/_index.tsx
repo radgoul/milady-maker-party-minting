@@ -515,6 +515,19 @@ export default function Index() {
             </a>
           </p>
         </div>
+
+        {/* Chess Game */}
+        <div className="mt-12 pt-8 border-t border-gray-700">
+          <h3 className="text-2xl font-bold text-center mb-6 text-purple-400">♟️ Play Chess While You Wait ♟️</h3>
+          <div className="max-w-4xl mx-auto">
+            <iframe 
+              style={{ width: "100%", height: "550px", overflow: "hidden", border: "none" }} 
+              src="https://playpager.com/embed/chess/index.html" 
+              title="Online Chess Game" 
+              scrolling="no"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
