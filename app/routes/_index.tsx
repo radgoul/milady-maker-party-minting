@@ -299,16 +299,17 @@ export default function Index() {
           </div>
         )}
 
-        {/* Admin Section - View All Orders */}
-        <div className="mt-12 border-t border-gray-700 pt-8">
-          <div className="text-center mb-6">
-            <button
-              onClick={() => setShowOrders(!showOrders)}
-              className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition-colors"
-            >
-              {showOrders ? 'Hide' : 'View'} All Orders ({allOrders.length})
-            </button>
-          </div>
+        {/* Admin Section - View All Orders - Only visible to you */}
+        {accounts?.[0] === "0x3bdA56Ef07BF6F996F8E3deFDddE6C8109B7e7Be" && (
+          <div className="mt-12 border-t border-gray-700 pt-8">
+            <div className="text-center mb-6">
+              <button
+                onClick={() => setShowOrders(!showOrders)}
+                className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+              >
+                {showOrders ? 'Hide' : 'View'} All Orders ({allOrders.length})
+              </button>
+            </div>
 
           {showOrders && (
             <div className="bg-gray-900 p-6 rounded-lg border border-gray-600">
@@ -378,6 +379,7 @@ export default function Index() {
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );
