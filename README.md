@@ -1,66 +1,116 @@
-# Milady Maker Party Minting Dapp
+# 🎉 MAKE AMERICA GOUL AGAIN!!! 🎉🔥
 
-https://miladymakerparty.scatter.art/
+**Milady Maker Party NFT Minting Dapp**
 
-# Welcome to Remix!
+A Remix-based web application for minting shirt NFTs with optional physical shirt delivery. Built with web3 integration and a custom aesthetic.
 
-- [Remix Docs](https://remix.run/docs)
-- [Netlify Functions](https://www.netlify.com/products/functions/)
+## 🚀 Features
 
-## Netlify Setup
+- **Wallet Connection** - MetaMask integration for secure transactions
+- **NFT Minting** - Mint digital shirt NFTs on the blockchain
+- **Physical Delivery** - Optional shipping information for physical shirts
+- **Custom Design** - Goosebumps font styling with custom branding
+- **Sound Effects** - Bomb sound effect on successful mints
+- **Responsive UI** - Clean, modern interface
 
-1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
+## 🛠️ Tech Stack
 
-```sh
+- **Frontend**: Remix (React-based framework)
+- **Styling**: Tailwind CSS
+- **Web3**: MetaMask wallet integration
+- **Deployment**: Netlify ready
+
+## 🎨 Custom Elements
+
+- Custom "MAKE AMERICA GOUL AGAIN!!! 🎉🔥" header
+- Goosebumps font integration
+- Custom logo and branding
+- Bomb sound effects for minting success
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- MetaMask wallet extension
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/radgoul/milady-maker-party-minting.git
+   cd milady-maker-party-minting
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+   Navigate to `http://localhost:4000`
+
+## 🔗 Links
+
+- **Live Site**: [Coming Soon]
+- **GitHub**: https://github.com/radgoul/milady-maker-party-minting
+
+## 🎯 Usage
+
+1. **Connect Wallet** - Click "Connect Wallet" and approve MetaMask connection
+2. **Choose Mint Type** - Select "Anonymous" for just NFT or "With Shipping" for physical shirt
+3. **Fill Details** - If shipping, provide your delivery information
+4. **Mint NFT** - Click "Mint NFT" and confirm the transaction
+5. **Success!** - Enjoy your bomb sound effect and new NFT! 💣
+
+## 🛠️ Development
+
+### Project Structure
+
+```
+milady-maker-party-minting/
+├── app/
+│   ├── components/     # React components
+│   ├── routes/         # Remix routes
+│   ├── lib/           # Web3 connectors and utilities
+│   └── services/      # Backend services
+├── public/            # Static assets (images, fonts, sounds)
+└── package.json
+```
+
+### Key Files
+
+- `app/routes/_index.tsx` - Main minting interface
+- `app/components/ConnectWithSelect.tsx` - Wallet connection component
+- `public/fonts/Goosebump.otf` - Custom font
+- `public/tag001.png` - Logo image
+
+## 🚀 Deployment
+
+This project is configured for Netlify deployment:
+
+```bash
+# Install Netlify CLI
 npm i -g netlify-cli
-```
 
-If you have previously installed the Netlify CLI, you should update it to the latest version:
-
-```sh
-npm i -g netlify-cli@latest
-```
-
-2. Sign up and log in to Netlify:
-
-```sh
-netlify login
-```
-
-3. Create a new site:
-
-```sh
-netlify init
-```
-
-## Development
-
-The Remix dev server starts your app in development mode, rebuilding assets on file changes. To start the Remix dev server:
-
-```sh
-npm run dev
-```
-
-Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
-
-The Netlify CLI builds a production version of your Remix App Server and splits it into Netlify Functions that run locally. This includes any custom Netlify functions you've developed. The Netlify CLI runs all of this in its development mode.
-
-```sh
-netlify dev
-```
-
-Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
-
-Note: When running the Netlify CLI, file changes will rebuild assets, but you will not see the changes to the page you are on unless you do a browser refresh of the page. Due to how the Netlify CLI builds the Remix App Server, it does not support hot module reloading.
-
-## Deployment
-
-There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need to do is run this:
-
-```sh
-# preview deployment
-netlify deploy --build
-
-# production deployment
+# Deploy to Netlify
 netlify deploy --build --prod
 ```
+
+## 🤝 Contributing
+
+This is a custom project for the Milady Maker Party. For collaboration, please contact the project maintainer.
+
+## 📄 License
+
+Custom project - All rights reserved.
+
+---
+
+**Built with ❤️ for the Milady Maker Party community**
