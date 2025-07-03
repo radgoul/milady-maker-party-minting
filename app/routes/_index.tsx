@@ -59,10 +59,8 @@ export default function Index() {
   // Admin wallet addresses
   const adminWallets = [
     "0x3bdA56Ef07BF6F996F8E3deFDddE6C8109B7e7Be",
-    "0x0000000000000000000000000000000000000000", // Placeholder for dev friend
     // Add your wallet address here to access admin panel
-    // You can also temporarily enable admin for all wallets by uncommenting the line below:
-    // ...accounts // This would make admin panel visible to any connected wallet
+    // Example: "0xYOUR_WALLET_ADDRESS_HERE"
   ];
 
   useEffect(() => {
@@ -86,10 +84,10 @@ export default function Index() {
       );
       
       // Temporary: Enable admin for any connected wallet (uncomment the line below)
-      setShowAdmin(true);
+      // setShowAdmin(true);
       
       // Normal admin check (comment out the line above and uncomment this)
-      // setShowAdmin(isAdmin);
+      setShowAdmin(isAdmin);
     } else {
       setShowAdmin(false);
     }
