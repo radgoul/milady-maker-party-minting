@@ -1,19 +1,20 @@
 # 🎉 MAKE AMERICA GOUL AGAIN!!! 🎉🔥
 
-**The Most Tremendous NFT Minting Platform Ever Created - Believe Me!**
+**The Most Tremendous, Most Beautiful, Most Incredible NFT Minting Platform Ever Created - Believe Me, Nobody Has Ever Seen Anything Like This!**
 
-A revolutionary Remix-based web application for minting the most beautiful shirt NFTs you've ever seen. We're talking about the best NFTs, maybe ever. Built with cutting-edge web3 technology and a custom aesthetic that's absolutely incredible.
+A revolutionary, game-changing Remix-based web application for minting the most beautiful shirt NFTs you've ever seen in your life. We're talking about the best NFTs, maybe ever created. Nobody does NFTs better than us, nobody! Built with cutting-edge web3 technology and a custom aesthetic that's absolutely incredible, tremendous, and beautiful.
 
-## 🚀 Features (And They're All Amazing!)
+## 🚀 Features (And They're All Amazing, Tremendous, and Beautiful!)
 
-- **Wallet Connection** - MetaMask integration so secure, it's like having a wall around your wallet
-- **NFT Minting** - Mint digital shirt NFTs on the blockchain, the most secure blockchain ever
-- **Physical Delivery** - Optional shipping for physical shirts, because we believe in delivering results
-- **Order Management** - MongoDB-powered order tracking system, very sophisticated
-- **Payment Processing** - Secure payment handling before minting, because we're all about security
-- **Custom Design** - Goosebumps font styling with custom branding, absolutely beautiful
-- **Sound Effects** - Bomb sound effect on successful mints, very dramatic
-- **Responsive UI** - Clean, modern interface that works on all devices, even the small ones
+- **Wallet Connection** - MetaMask integration so secure, it's like having a wall around your wallet, the best wall ever built
+- **NFT Minting** - Mint digital shirt NFTs on the blockchain, the most secure blockchain ever created, believe me
+- **Physical Delivery** - Optional shipping for physical shirts, because we believe in delivering results, and we always deliver
+- **Order Management** - MongoDB-powered order tracking system, very sophisticated, the best tracking system you've ever seen
+- **Payment Processing** - Secure payment handling before minting, because we're all about security, tremendous security
+- **Size Selection** - Choose your shirt size from Small to 2XL, because we care about fit, we really do
+- **Custom Design** - Goosebumps font styling with custom branding, absolutely beautiful, the most beautiful design ever
+- **Sound Effects** - Bomb sound effect on successful mints, very dramatic, very exciting
+- **Responsive UI** - Clean, modern interface that works on all devices, even the small ones, because we think of everything
 
 ## 🛠️ Tech Stack (The Best Technology, Believe Me!)
 
@@ -44,8 +45,8 @@ A revolutionary Remix-based web application for minting the most beautiful shirt
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/radgoul/milady-maker-party-minting.git
-   cd milady-maker-party-minting
+   git clone https://github.com/radgoul/make-america-goul-again.git
+   cd make-america-goul-again
    ```
 
 2. **Install dependencies:**
@@ -71,23 +72,23 @@ A revolutionary Remix-based web application for minting the most beautiful shirt
 ## 🔗 Links
 
 - **Live Site**: [Coming Soon - It's Going to Be Huge!]
-- **GitHub**: https://github.com/radgoul/milady-maker-party-minting
+- **GitHub**: https://github.com/radgoul/make-america-goul-again
 
-## 🎯 Usage (Very Simple, Very Effective!)
+## 🎯 Usage (Very Simple, Very Effective, and Tremendous!)
 
-1. **Connect Wallet** - Click "Connect Wallet" and approve MetaMask connection
-2. **Choose Mint Type** - Select "Anonymous" for just NFT or "With Shipping" for physical shirt
-3. **Fill Details** - If shipping, provide your delivery information (we need to know where to send it!)
-4. **Process Payment** - Complete payment for physical merchandise (very secure)
-5. **Mint NFT** - Click "Mint NFT" and confirm the transaction
-6. **Success!** - Enjoy your bomb sound effect and new NFT! 💣
+1. **Connect Wallet** - Click "Connect Wallet" and approve MetaMask connection (it's going to be huge!)
+2. **Choose Mint Type** - Select "Anonymous" for just NFT or "With Shipping" for physical shirt (we have the best options!)
+3. **Fill Details** - If shipping, provide your delivery information and choose your size (we need to know where to send it and what size you want!)
+4. **Process Payment** - Complete payment for physical merchandise (very secure, the most secure payment system ever)
+5. **Mint NFT** - Click "Mint NFT" and confirm the transaction (it's going to be beautiful!)
+6. **Success!** - Enjoy your bomb sound effect and new NFT! 💣 (The most tremendous success you've ever experienced!)
 
 ## 🛠️ Development (For the Very Smart Developers!)
 
 ### Project Structure
 
 ```
-milady-maker-party-minting/
+make-america-goul-again/
 ├── app/
 │   ├── components/     # React components (very well organized)
 │   ├── routes/         # Remix routes (API endpoints included)
@@ -131,7 +132,7 @@ netlify deploy --build --prod
 
 ## 🤝 Contributing
 
-This is a custom project with a very specific aesthetic. For collaboration, please contact the project maintainer.
+This is a custom project with a very specific aesthetic, the most beautiful aesthetic ever created. For collaboration, please contact the project maintainer. We only work with the best people, believe me!
 
 ## 📄 License
 
@@ -139,7 +140,7 @@ Custom project - All rights reserved.
 
 ---
 
-**Built with ❤️ for the MAKE AMERICA GOUL AGAIN movement**
+**Built with ❤️ for the MAKE AMERICA GOUL AGAIN movement - The Most Tremendous Movement Ever Created!**
 
 ---
 
