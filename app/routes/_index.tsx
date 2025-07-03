@@ -18,6 +18,7 @@ interface ShippingInfo {
   state: string;
   zipCode: string;
   country: string;
+  size: string;
 }
 
 interface Order {
@@ -48,7 +49,8 @@ export default function Index() {
     city: "",
     state: "",
     zipCode: "",
-    country: "USA"
+    country: "USA",
+    size: "M"
   });
   const [orders, setOrders] = useState<Order[]>([]);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -136,7 +138,7 @@ export default function Index() {
     if (!isAnonymous) {
       // Validate shipping info
       if (!shippingInfo.name || !shippingInfo.email || !shippingInfo.address || 
-          !shippingInfo.city || !shippingInfo.state || !shippingInfo.zipCode) {
+          !shippingInfo.city || !shippingInfo.state || !shippingInfo.zipCode || !shippingInfo.size) {
         alert("Please fill in all required shipping information!");
         return;
       }
@@ -178,7 +180,8 @@ export default function Index() {
           city: "Anonymous",
           state: "Anonymous",
           zipCode: "00000",
-          country: "USA"
+          country: "USA",
+          size: "M"
         } : shippingInfo,
         timestamp: Date.now(),
         isAnonymous
@@ -227,7 +230,8 @@ export default function Index() {
         city: "",
         state: "",
         zipCode: "",
-        country: "USA"
+        country: "USA",
+        size: "M"
       });
 
     } catch (error) {
@@ -424,6 +428,22 @@ export default function Index() {
             />
           </div>
                       </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Shirt Size *</label>
+                        <select
+                          value={shippingInfo.size}
+                          onChange={(e) => setShippingInfo({...shippingInfo, size: e.target.value})}
+                          className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
+                        >
+                          <option value="">Select Size</option>
+                          <option value="S">Small</option>
+                          <option value="M">Medium</option>
+                          <option value="L">Large</option>
+                          <option value="XL">X-Large</option>
+                          <option value="2XL">2X-Large</option>
+                        </select>
+                      </div>
                     </div>
                   )}
 
@@ -491,6 +511,7 @@ export default function Index() {
                       <p><strong>Address:</strong> {order.shippingInfo.address}</p>
                       <p><strong>City:</strong> {order.shippingInfo.city}, {order.shippingInfo.state} {order.shippingInfo.zipCode}</p>
                       <p><strong>Country:</strong> {order.shippingInfo.country}</p>
+                      <p><strong>Size:</strong> {order.shippingInfo.size}</p>
                     </div>
                   )}
                 </div>
@@ -518,6 +539,7 @@ export default function Index() {
                   <div><strong>State:</strong> {shippingInfo.state}</div>
                   <div><strong>ZIP Code:</strong> {shippingInfo.zipCode}</div>
                   <div><strong>Country:</strong> {shippingInfo.country}</div>
+                  <div><strong>Size:</strong> {shippingInfo.size}</div>
                 </div>
               )}
               <div className="flex space-x-4">

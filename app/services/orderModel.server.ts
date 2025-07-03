@@ -8,6 +8,7 @@ const ShippingInfoSchema = new mongoose.Schema({
   state: String,
   zipCode: String,
   country: String,
+  size: String,
 }, { _id: false });
 
 const OrderSchema = new mongoose.Schema({
