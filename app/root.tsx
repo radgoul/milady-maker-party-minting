@@ -26,36 +26,36 @@ export default function App() {
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="/apple-touch-icon.png"
+          href="/tag001.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="https://miladymakerparty.s3.us-east-2.amazonaws.com/favicon.png"
+          href="/favicon-32x32.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="https://miladymakerparty.s3.us-east-2.amazonaws.com/favicon.png"
+          href="/favicon-32x32.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffffff" />
         <meta name="msapplication-TileColor" content="#000000" />
-        <meta name="author" content="Milady Maker Party"></meta>
+        <meta name="author" content="GOUL Shoppe"></meta>
         <title>GOUL Shoppe</title>
-        <meta name="description" content="Milady Maker Party is the gamification of collective wealth creation and redistribution for the Remilia ecosystem."></meta>
-        <meta name="og:image" content="https://miladymakerparty.s3.us-east-2.amazonaws.com/twittercard.jpg"></meta>
+        <meta name="description" content="MAKE AMERICA GOUL AGAIN!!! Mint your GOUL Shirt NFT and get physical shipping."></meta>
+        <meta name="og:image" content="/tag001.png"></meta>
         <meta name="theme-color" content="#ffffff"></meta>
 
         
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@miladymakerprty" />
-        <meta name="twitter:creator" content="@miladymakerprty" />
-        <meta name="twitter:title" content="Milady Maker Party" />
-        <meta name="twitter:description" content="Milady Maker Party is the gamification of collective wealth creation and redistribution for the Remilia ecosystem." />
-        <meta name="twitter:image" content="https://miladymakerparty.s3.us-east-2.amazonaws.com/twittercard.jpg?4362984378" />
+        <meta name="twitter:site" content="@0xGouL" />
+        <meta name="twitter:creator" content="@0xGouL" />
+        <meta name="twitter:title" content="GOUL Shoppe" />
+        <meta name="twitter:description" content="MAKE AMERICA GOUL AGAIN!!! Mint your GOUL Shirt NFT and get physical shipping." />
+        <meta name="twitter:image" content="/tag001.png" />
 
         <Meta />
         <Links />
