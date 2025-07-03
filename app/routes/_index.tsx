@@ -16,7 +16,7 @@ interface ShippingInfo {
   address: string;
   city: string;
   state: string;
-  zipCode: string;
+  postalCode: string;
   country: string;
   size: string;
   isPoBox: boolean;
@@ -49,7 +49,7 @@ export default function Index() {
     address: "",
     city: "",
     state: "",
-    zipCode: "",
+    postalCode: "",
     country: "USA",
     size: "M",
     isPoBox: false
@@ -140,7 +140,7 @@ export default function Index() {
     if (!isAnonymous) {
       // Validate shipping info
       if (!shippingInfo.name || !shippingInfo.email || !shippingInfo.address || 
-          !shippingInfo.city || !shippingInfo.state || !shippingInfo.zipCode || !shippingInfo.size) {
+          !shippingInfo.city || !shippingInfo.state || !shippingInfo.postalCode || !shippingInfo.size) {
         alert("Please fill in all required shipping information!");
         return;
       }
@@ -152,10 +152,10 @@ export default function Index() {
         return;
       }
 
-      // Basic ZIP code validation (5 digits)
-      const zipRegex = /^\d{5}$/;
-      if (!zipRegex.test(shippingInfo.zipCode)) {
-        alert("Please enter a valid 5-digit ZIP code!");
+      // Basic postal code validation (more flexible for international)
+      const postalRegex = /^[A-Za-z0-9\s\-]{3,10}$/;
+      if (!postalRegex.test(shippingInfo.postalCode)) {
+        alert("Please enter a valid postal code!");
         return;
       }
     }
@@ -181,7 +181,7 @@ export default function Index() {
           address: "Anonymous",
           city: "Anonymous",
           state: "Anonymous",
-          zipCode: "00000",
+          postalCode: "00000",
           country: "USA",
           size: "M",
           isPoBox: false
@@ -232,7 +232,7 @@ export default function Index() {
         address: "",
         city: "",
         state: "",
-        zipCode: "",
+        postalCode: "",
         country: "USA",
         size: "M",
         isPoBox: false
@@ -436,26 +436,51 @@ export default function Index() {
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium mb-1">ZIP Code *</label>
+                          <label className="block text-sm font-medium mb-1">Postal Code *</label>
                           <input
                             type="text"
-                            value={shippingInfo.zipCode}
-                            onChange={(e) => setShippingInfo({...shippingInfo, zipCode: e.target.value})}
+                            value={shippingInfo.postalCode}
+                            onChange={(e) => setShippingInfo({...shippingInfo, postalCode: e.target.value})}
                             className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
-                            placeholder="ZIP Code"
-                            maxLength={5}
+                            placeholder="Postal Code"
+                            maxLength={10}
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">Country</label>
-                          <input
-                            type="text"
+                          <select
                             value={shippingInfo.country}
                             onChange={(e) => setShippingInfo({...shippingInfo, country: e.target.value})}
                             className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
-                            placeholder="Country"
-            />
-          </div>
+                          >
+                            <option value="">Select Country</option>
+                            <option value="USA">United States</option>
+                            <option value="Canada">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Japan">Japan</option>
+                            <option value="South Korea">South Korea</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Norway">Norway</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Finland">Finland</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Ireland">Ireland</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Hong Kong">Hong Kong</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
                       </div>
                       
                       <div>
@@ -538,7 +563,7 @@ export default function Index() {
                       <p><strong>Name:</strong> {order.shippingInfo.name}</p>
                       <p><strong>Email:</strong> {order.shippingInfo.email}</p>
                       <p><strong>Address:</strong> {order.shippingInfo.address} {order.shippingInfo.isPoBox && "(PO Box)"}</p>
-                      <p><strong>City:</strong> {order.shippingInfo.city}, {order.shippingInfo.state} {order.shippingInfo.zipCode}</p>
+                      <p><strong>City:</strong> {order.shippingInfo.city}, {order.shippingInfo.state} {order.shippingInfo.postalCode}</p>
                       <p><strong>Country:</strong> {order.shippingInfo.country}</p>
                       <p><strong>Size:</strong> {order.shippingInfo.size}</p>
                     </div>
@@ -569,7 +594,7 @@ export default function Index() {
                   <div><strong>Address:</strong> {shippingInfo.address} {shippingInfo.isPoBox && "(PO Box)"}</div>
                   <div><strong>City:</strong> {shippingInfo.city}</div>
                   <div><strong>State:</strong> {shippingInfo.state}</div>
-                  <div><strong>ZIP Code:</strong> {shippingInfo.zipCode}</div>
+                  <div><strong>Postal Code:</strong> {shippingInfo.postalCode}</div>
                   <div><strong>Country:</strong> {shippingInfo.country}</div>
                   <div><strong>Size:</strong> {shippingInfo.size}</div>
                 </div>

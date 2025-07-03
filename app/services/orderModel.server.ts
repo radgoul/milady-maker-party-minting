@@ -6,7 +6,7 @@ const ShippingInfoSchema = new mongoose.Schema({
   address: String,
   city: String,
   state: String,
-  zipCode: String,
+  postalCode: String,
   country: String,
   size: String,
   isPoBox: Boolean,
