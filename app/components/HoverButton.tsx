@@ -10,23 +10,19 @@ export function ConnectButton({
   const [hover, setHover] = useState(false)
 
   return (
-    <button onClick={onClick} disabled={disabled}>
-      <img
-        src={
-          hover
-            ? "https://miladymakerparty.s3.us-east-2.amazonaws.com/connectselected.webp"
-            : "https://miladymakerparty.s3.us-east-2.amazonaws.com/connect.webp"
-        }
-        width="611"
-        height="394"
-        alt="connect wallet"
-        style={{ transition: "filter 0.5s ease-in-out" }}
-        className={`w-full cursor-pointer transition-all duration-500 $${
-          hover ? "filter brightness-75" : ""
-        }`}
-        onMouseOver={() => setHover(true)}
-        onMouseOut={() => setHover(false)}
-      />
+    <button 
+      onClick={onClick} 
+      disabled={disabled}
+      className={`text-2xl font-bold px-8 py-4 border-2 border-purple-500 rounded-lg transition-all duration-300 ${
+        hover 
+          ? 'bg-purple-500 text-white' 
+          : 'bg-transparent text-purple-500 hover:bg-purple-500 hover:text-white'
+      } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
+      style={{ fontFamily: 'Goosebumps, cursive' }}
+    >
+      CONNECT WALLET
     </button>
   )
 }

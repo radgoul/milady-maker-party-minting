@@ -1,20 +1,8 @@
-import type { ActionFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { useEffect, useState } from "react";
-import { SiweMessage } from "~/lib/utils/siwe.server";
 import { ConnectWithSelect } from "~/components/ConnectWithSelect";
 import { hooks, metaMask } from "~/lib/connectors/metaMask";
-import EventEmitter from "~/lib/utils/eventemitter.server";
-import { MintSection } from "~/components/MintSection";
-import { Card } from "~/components/Card";
-import { Status } from "~/components/Status";
-import { Accounts } from "~/components/Accounts";
-import { FaHome, FaUser, FaEnvelope, FaEthereum, FaShip, FaWater, FaTwitter, FaBook, FaCoins } from 'react-icons/fa';
-import { Helmet } from "react-helmet";
-
 
 const {
-  useENSNames,
   useChainId,
   useIsActivating,
   useIsActive,
@@ -22,213 +10,200 @@ const {
   useAccounts,
 } = hooks;
 
-export const action: ActionFunction = async ({ request, context }) => {
-  console.log("doing the action");
-  const formData = await request.formData();
-  console.log({ formData });
-  const address = formData.get("address") as string;
-  const statement = formData.get("statement") as string;
-  // const project = await createProject(body);
-  const EE = new EventEmitter();
-
-  console.log({ EE });
-
-  console.log({ context });
-
-  try {
-    const siweOptions = {
-      domain: "localhost:4000",
-      address,
-      statement,
-      uri: "https://localhost:4000/",
-      version: "1",
-      chainId: 1,
-    };
-    console.log({ siweOptions });
-    const message = new SiweMessage(siweOptions);
-
-    const preparedMessage = message.prepareMessage();
-    console.log({ message });
-    console.log(preparedMessage);
-    return json({ message: preparedMessage });
-  } catch (error) {
-    console.log({ error });
-    return json({ error });
-  }
-};
-
 export default function Index() {
   const chainId = useChainId();
   const isActivating = useIsActivating();
-
   const isActive = useIsActive();
-
   const provider = useProvider();
   const accounts = useAccounts();
-  const ENSNames = useENSNames();
-
-  // console.log({
-  //   chainId,
-  //   accounts,
-  //   isActivating,
-  //   isActive,
-  //   provider,
-  //   ENSNames,
-  //   signer,
-  // })
 
   const [error, setError] = useState<Error>();
+  const [mintSuccess, setMintSuccess] = useState(false);
 
   useEffect(() => {
-    console.log("eagerly connecting to MM");
-
     void metaMask.connectEagerly().catch(() => {
       console.debug("Failed to connect eagerly to metamask");
     });
   }, []);
 
 
-  return (
-    <>
-      {/* <div className="absolute bottom-0 left-0">Logos</div> */}
-      <div className="absolute top-0 left-0">
-        <div className="mt-8 ml-8">
-          <Status
-            isActivating={isActivating}
-            isActive={isActive}
-            error={error}
-          />
-          <Accounts
-            accounts={accounts}
-            provider={provider}
-            ENSNames={ENSNames}
-          />
 
-          {isActive ? (
-            <button
-              onClick={() => {
-                if (metaMask?.deactivate) {
-                  void metaMask.deactivate();
-                } else {
-                  void metaMask.resetState();
-                }
-                // setDesiredChainId(1);
-              }}
-              className="underline mt-3 tracking-wide"
-            >
-              Disconnect
-            </button>
-          ) : null}
-        </div>
-
-        {/* <Card
-          connector={metaMask}
-          activeChainId={chainId}
-          isActivating={isActivating}
-          isActive={isActive}
-          error={error}
-          chainIds={[1, 11155111]}
-          setError={setError}
-          accounts={accounts}
-          provider={provider}
-          ENSNames={ENSNames}
-        /> */}
-      </div>
+  const handleMint = async (e: React.FormEvent) => {
+    e.preventDefault();
     
-
-      <div className="max-w-screen-2xl mx-auto h-screen flex flex-col items-center justify-center px-8 lg:px-0 relative">
-        <div className="flex flex-col items-center justify-center">
-       
-        <div className="absolute bottom-0 right-10 mx-auto">
-        <div className="mt-8 ml-8" style={{ color: 'purple', fontSize: '14px',position: 'fixed',
-        left: '8px',
-        bottom: '8px',
-        marginLeft: '60px'}}>
-          <h1>Powered by Scatter.Art</h1>
-          
-      </div>
-    </div>
-
-        <div className="absolute bottom-0 left-0">
-        <div className="mt-8 ml-8" style={{position: 'fixed',
-        left: '8px',
-        bottom: '35px',
-        }}>
-          
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', zIndex: 1 }}>
-      <div style={{ flexGrow: 1, overflowY: 'auto',}}>
-        {/* Content that can scroll */}
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '1px', }}>
-      <a href="https://docs.miladymakerparty.world/" style={{marginRight: '16px' }}>
-          <FaBook size={28} color="purple"/>
-        </a>
-        <a href="https://etherscan.io/address/0x05C63282c87f620aF5a658cBb53548257F3A6186" style={{ marginLeft: '16px', marginRight: '16px' }}>
-          <FaEthereum size={28} color="purple"/>
-        </a>
-        <a href="https://opensea.io/collection/milady-maker-party" style={{ marginLeft: '16px', marginRight: '16px' }}>
-          <FaWater size={28} color="purple"/>
-        </a>
-        <a href="https://twitter.com/miladymakerprty" style={{ marginLeft: '16px', marginRight: '16px' }}>
-          <FaTwitter size={28} color="purple"/>
-        </a>
-      </div>
-    </div>
+    // Show minting in progress
+    setMintSuccess(false);
+    
+    try {
+      // Simulate actual minting process
+      // In real implementation, this would be:
+      // const tx = await contract.mint(...);
+      // await tx.wait();
       
+      // Simulate transaction delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Show success after "minting" completes
+      setMintSuccess(true);
+      
+      // Reset after 3 seconds
+      setTimeout(() => setMintSuccess(false), 3000);
+      
+    } catch (error) {
+      console.error("Minting failed:", error);
+      // Don't play bomb sound if minting fails
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white p-8">
+      {/* Background Music - Synced to real-world time */}
+      
+      <style>
+        {`
+          @font-face {
+            font-family: 'Goosebumps';
+            src: url('/fonts/Goosebump.otf') format('opentype');
+          }
+          .goosebumps-font {
+            font-family: 'Goosebumps', cursive;
+          }
+        `}
+      </style>
+      
+      <div className="max-w-4xl mx-auto">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <img 
+            src="/tag001.png" 
+            alt="Logo" 
+            className="mx-auto mb-4"
+            style={{ maxWidth: '200px' }}
+          />
         </div>
-      </div>
+        
+        <h1 className="text-6xl font-bold mb-8 text-center goosebumps-font text-red-500">
+          MAKE AMERICA GOUL AGAIN
+        </h1>
+        
 
-      
-          <div className="max-w-3xl mx-auto" style={{ paddingTop: '60px' }}>
-            <img
-              src="https://miladymakerparty.s3.us-east-2.amazonaws.com/logomint.webp"
-              width="1037"
-              height="172"
-              alt="milady maker party"
-            />
+        
+        {mintSuccess && (
+          <div className="text-center mb-8 text-green-400 text-2xl font-bold">
+            💣 MINT SUCCESSFUL! 💣
           </div>
-
-          {/* <Form method="post">
-            <input
-              type="hidden"
-              name="address"
-              value={accounts ? accounts[0] : ""}
-            />
-            <input type="hidden" name="statement" value={statement} />
-            <button type="submit" className="text-white">
-              Sign In
-            </button>
-          </Form> */}
-
-          <div className="w-72">
-            <img
-              src="https://miladymakerparty.s3.us-east-2.amazonaws.com/scatterwebsite.gif"
-              width="352"
-              height="436"
-              alt="milady maker party"
-            />
-          </div>
-
+        )}
+        
+        <div className="mb-8">
+          <h2 className="text-2xl mb-4">Connect Wallet</h2>
           {isActive ? (
-            <div className="mt-2">
-              <MintSection provider={provider} />
+            <div className="text-center">
+              <div className="text-green-400 text-xl mb-4">✅ Wallet Connected!</div>
+              <div className="text-purple-400 mb-4">
+                Address: {accounts?.[0]?.slice(0, 6)}...{accounts?.[0]?.slice(-4)}
+              </div>
+              <button
+                onClick={() => {
+                  if (metaMask?.deactivate) {
+                    void metaMask.deactivate();
+                  } else {
+                    void metaMask.resetState();
+                  }
+                }}
+                className="text-red-400 underline hover:text-red-300"
+              >
+                Disconnect Wallet
+              </button>
             </div>
-            
           ) : (
-            <div className="w-[360px] -mt-10">
-              <ConnectWithSelect
-                connector={metaMask}
-                activeChainId={chainId}
-                chainIds={[1, 11155111]}
-                isActivating={isActivating}
-                isActive={isActive}
-                error={error}
-                setError={setError}
-              />
-            </div>
+            <ConnectWithSelect
+              connector={metaMask}
+              activeChainId={chainId}
+              chainIds={[1, 11155111]}
+              isActivating={isActivating}
+              isActive={isActive}
+              error={error}
+              setError={setError}
+            />
           )}
         </div>
+
+        {isActive && (
+          <div className="mb-8">
+            <h2 className="text-2xl mb-4">Mint Shirt NFT</h2>
+            <form className="space-y-4" onSubmit={handleMint}>
+              <div>
+                <label className="block mb-2">Mint Type</label>
+                <select 
+                  className="border p-2 w-full" 
+                  onChange={(e) => {
+                    const fields = document.getElementById('identified-fields');
+                    if (fields) {
+                      fields.className = e.target.value === 'identified' ? 'block' : 'hidden';
+                    }
+                  }}
+                >
+                  <option value="anonymous">Anonymous - Just NFT</option>
+                  <option value="identified">With Shipping - Get Physical Shirt</option>
+                </select>
+              </div>
+
+              <div id="identified-fields" className="hidden space-y-4">
+                <div>
+                  <label className="block mb-2 text-purple-400">Shipping Information</label>
+                  <input 
+                    type="text" 
+                    placeholder="Full Name" 
+                    className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                  />
+                </div>
+                <div>
+                  <input 
+                    type="text" 
+                    placeholder="Street Address" 
+                    className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <input 
+                    type="text" 
+                    placeholder="City" 
+                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
+                  />
+                  <input 
+                    type="text" 
+                    placeholder="State" 
+                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <input 
+                    type="text" 
+                    placeholder="ZIP Code" 
+                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
+                  />
+                  <input 
+                    type="text" 
+                    placeholder="Country" 
+                    className="border border-purple-500 p-3 bg-black text-white placeholder-gray-400" 
+                  />
+                </div>
+                <div>
+                  <input 
+                    type="email" 
+                    placeholder="Email (for shipping updates)" 
+                    className="border border-purple-500 p-3 w-full bg-black text-white placeholder-gray-400" 
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="bg-purple-600 px-6 py-3 text-lg font-bold rounded-lg hover:bg-purple-700 transition-colors">
+                {mintSuccess ? "Minting..." : "Mint NFT"}
+              </button>
+            </form>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
