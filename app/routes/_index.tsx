@@ -19,6 +19,7 @@ interface ShippingInfo {
   zipCode: string;
   country: string;
   size: string;
+  isPoBox: boolean;
 }
 
 interface Order {
@@ -50,7 +51,8 @@ export default function Index() {
     state: "",
     zipCode: "",
     country: "USA",
-    size: "M"
+    size: "M",
+    isPoBox: false
   });
   const [orders, setOrders] = useState<Order[]>([]);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -181,7 +183,8 @@ export default function Index() {
           state: "Anonymous",
           zipCode: "00000",
           country: "USA",
-          size: "M"
+          size: "M",
+          isPoBox: false
         } : shippingInfo,
         timestamp: Date.now(),
         isAnonymous
@@ -231,7 +234,8 @@ export default function Index() {
         state: "",
         zipCode: "",
         country: "USA",
-        size: "M"
+        size: "M",
+        isPoBox: false
       });
 
     } catch (error) {
@@ -381,6 +385,18 @@ export default function Index() {
                           placeholder="Enter your street address"
             />
           </div>
+                      
+                      <div className="mb-4">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={shippingInfo.isPoBox}
+                            onChange={(e) => setShippingInfo({...shippingInfo, isPoBox: e.target.checked})}
+                            className="mr-2"
+                          />
+                          <span>This is a PO Box address</span>
+                        </label>
+                      </div>
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -508,7 +524,7 @@ export default function Index() {
                     <div className="mt-2 text-sm">
                       <p><strong>Name:</strong> {order.shippingInfo.name}</p>
                       <p><strong>Email:</strong> {order.shippingInfo.email}</p>
-                      <p><strong>Address:</strong> {order.shippingInfo.address}</p>
+                      <p><strong>Address:</strong> {order.shippingInfo.address} {order.shippingInfo.isPoBox && "(PO Box)"}</p>
                       <p><strong>City:</strong> {order.shippingInfo.city}, {order.shippingInfo.state} {order.shippingInfo.zipCode}</p>
                       <p><strong>Country:</strong> {order.shippingInfo.country}</p>
                       <p><strong>Size:</strong> {order.shippingInfo.size}</p>
@@ -534,7 +550,7 @@ export default function Index() {
                 <div className="mb-4 p-4 bg-gray-800 rounded text-sm text-gray-200 border border-gray-700">
                   <div><strong>Name:</strong> {shippingInfo.name}</div>
                   <div><strong>Email:</strong> {shippingInfo.email}</div>
-                  <div><strong>Address:</strong> {shippingInfo.address}</div>
+                  <div><strong>Address:</strong> {shippingInfo.address} {shippingInfo.isPoBox && "(PO Box)"}</div>
                   <div><strong>City:</strong> {shippingInfo.city}</div>
                   <div><strong>State:</strong> {shippingInfo.state}</div>
                   <div><strong>ZIP Code:</strong> {shippingInfo.zipCode}</div>

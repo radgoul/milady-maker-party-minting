@@ -1,13 +1,13 @@
 # 🎉 MAKE AMERICA GOUL AGAIN!!! 🎉🔥
 
-**The Most Tremendous, Most Beautiful, Most Incredible NFT Minting Platform Ever Created - Believe Me, Nobody Has Ever Seen Anything Like This!**
+**The Most Tremendous, Most Beautiful, Most Incredible NFT Merch Store Ever Created - Powered by Scatter Platform - Believe Me, Nobody Has Ever Seen Anything Like This!**
 
-A revolutionary, game-changing Remix-based web application for minting the most beautiful shirt NFTs you've ever seen in your life. We're talking about the best NFTs, maybe ever created. Nobody does NFTs better than us, nobody! Built with cutting-edge web3 technology and a custom aesthetic that's absolutely incredible, tremendous, and beautiful.
+A revolutionary, game-changing Remix-based web application for the most beautiful shirt NFTs you've ever seen in your life, powered by the incredible Scatter platform. We're talking about the best NFTs, maybe ever created. Nobody does NFTs better than us, nobody! Built with cutting-edge web3 technology and a custom aesthetic that's absolutely incredible, tremendous, and beautiful.
 
 ## 🚀 Features (And They're All Amazing, Tremendous, and Beautiful!)
 
 - **Wallet Connection** - MetaMask integration so secure, it's like having a wall around your wallet, the best wall ever built
-- **NFT Minting** - Mint digital shirt NFTs on the blockchain, the most secure blockchain ever created, believe me
+- **NFT Minting** - Mint digital shirt NFTs on the blockchain powered by Scatter platform, the most secure blockchain ever created, believe me
 - **Physical Delivery** - Optional shipping for physical shirts, because we believe in delivering results, and we always deliver
 - **Order Management** - MongoDB-powered order tracking system, very sophisticated, the best tracking system you've ever seen
 - **Payment Processing** - Secure payment handling before minting, because we're all about security, tremendous security
@@ -21,6 +21,7 @@ A revolutionary, game-changing Remix-based web application for minting the most 
 - **Frontend**: Remix (React-based framework) - Very powerful
 - **Styling**: Tailwind CSS - The most beautiful styling framework
 - **Web3**: MetaMask wallet integration - Very secure
+- **NFT Platform**: Scatter - The most incredible NFT platform ever created
 - **Database**: MongoDB - For storing orders and user data
 - **Authentication**: SIWE (Sign-In with Ethereum) - Very sophisticated
 - **Deployment**: Netlify ready - Deploys like a dream
