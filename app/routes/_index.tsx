@@ -382,7 +382,7 @@ export default function Index() {
                           value={shippingInfo.address}
                           onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
                           className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
-                          placeholder="Enter your street address"
+                          placeholder={shippingInfo.isPoBox ? "Enter your PO Box (e.g., P.O. Box 123)" : "Enter your street address"}
             />
           </div>
                       
@@ -396,6 +396,11 @@ export default function Index() {
                           />
                           <span>This is a PO Box address</span>
                         </label>
+                        {shippingInfo.isPoBox && (
+                          <p className="text-sm text-gray-400 mt-1">
+                            Enter your PO Box in the address field above (e.g., "P.O. Box 123" or "PO Box 456")
+                          </p>
+                        )}
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
