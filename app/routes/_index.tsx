@@ -347,19 +347,36 @@ export default function Index() {
                     MINT PRICE: 0.01776 ETH
                   </div>
           
-                  <div className="mb-4">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={isAnonymous}
-                        onChange={(e) => setIsAnonymous(e.target.checked)}
-                        className="mr-2"
-                      />
-                      <span>Mint NFT only (no physical shirt)</span>
-                    </label>
-                    <p className="text-sm text-gray-400 mt-1 ml-6">
-                      You get the NFT, folks! The physical shirt will be raffled off to the patriots who provide their shipping info. TREMENDOUS!
-                    </p>
+                  <div className="mb-4 p-4 bg-gray-800 rounded border border-gray-600">
+                    <h4 className="text-lg font-bold text-purple-400 mb-2">Choose Your Mint Option:</h4>
+                    
+                    <div className="space-y-3">
+                      <label className="flex items-start">
+                        <input
+                          type="radio"
+                          checked={!isAnonymous}
+                          onChange={() => setIsAnonymous(false)}
+                          className="mr-3 mt-1"
+                        />
+                        <div>
+                          <span className="font-bold text-green-400">🎯 FULL PACKAGE - NFT + PHYSICAL SHIRT</span>
+                          <p className="text-sm text-gray-300 mt-1">Provide shipping info to receive both the NFT and the physical shirt delivered to your door!</p>
+                        </div>
+                      </label>
+                      
+                      <label className="flex items-start">
+                        <input
+                          type="radio"
+                          checked={isAnonymous}
+                          onChange={() => setIsAnonymous(true)}
+                          className="mr-3 mt-1"
+                        />
+                        <div>
+                          <span className="font-bold text-yellow-400">🖼️ NFT ONLY - ANON FRIENDLY</span>
+                          <p className="text-sm text-gray-300 mt-1">Stay anonymous, get the NFT! The physical shirt will be raffled off to patriots. TREMENDOUS!</p>
+                        </div>
+                      </label>
+                    </div>
                   </div>
 
                   {!isAnonymous && (
