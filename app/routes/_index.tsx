@@ -331,7 +331,7 @@ export default function Index() {
               {!showMintForm ? (
                 <div className="text-center">
                   <div className="text-3xl font-bold text-yellow-400 mb-4">
-                    MINT PRICE: 0.015 ETH
+                    MINT PRICE: 0.01776 ETH
                   </div>
                   <button
                     onClick={() => setShowMintForm(true)}
@@ -344,7 +344,7 @@ export default function Index() {
                 <div className="bg-gray-900 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-2xl font-bold mb-4 text-purple-400">Mint Your GOUL Shirt NFT</h3>
                   <div className="text-xl font-bold text-yellow-400 mb-4 text-center">
-                    MINT PRICE: 0.015 ETH
+                    MINT PRICE: 0.01776 ETH
                   </div>
           
                   <div className="mb-4">
@@ -355,9 +355,12 @@ export default function Index() {
                         onChange={(e) => setIsAnonymous(e.target.checked)}
                         className="mr-2"
                       />
-                      <span>Mint anonymously (no shipping info required)</span>
+                      <span>Mint NFT only (no physical shirt)</span>
                     </label>
-      </div>
+                    <p className="text-sm text-gray-400 mt-1 ml-6">
+                      You get the NFT, folks! The physical shirt will be raffled off to the patriots who provide their shipping info. TREMENDOUS!
+                    </p>
+                  </div>
 
                   {!isAnonymous && (
                     <div className="space-y-4">
@@ -424,13 +427,13 @@ export default function Index() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">State *</label>
-            <input
+                          <input
                             type="text"
                             value={shippingInfo.state}
                             onChange={(e) => setShippingInfo({...shippingInfo, state: e.target.value})}
                             className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white"
                             placeholder="State"
-            />
+                          />
                         </div>
                       </div>
                       
@@ -589,7 +592,7 @@ export default function Index() {
             <div className="bg-gray-900 p-6 rounded-lg border border-gray-700 max-w-md">
               <h3 className="text-xl font-bold mb-4 text-purple-400">Confirm Mint</h3>
               <div className="text-lg font-bold text-yellow-400 mb-4 text-center">
-                MINT PRICE: 0.015 ETH
+                MINT PRICE: 0.01776 ETH
               </div>
               <p className="mb-4 text-gray-300">
                 Are you sure you want to mint your GOUL Shirt NFT?
