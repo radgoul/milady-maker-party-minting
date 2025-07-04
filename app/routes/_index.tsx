@@ -317,7 +317,7 @@ export default function Index() {
       
       <div className="max-w-4xl mx-auto relative z-10">
         <h1 className="text-6xl font-bold mb-8 text-center goosebumps-font text-red-500">
-          MAKE AMERICA GOUL AGAIN!!!
+                          MAKE AMERICA GOUL AGAIN
         </h1>
         
         <div className="mb-8">
@@ -331,7 +331,7 @@ export default function Index() {
               {!showMintForm ? (
                 <div className="text-center">
                   <div className="text-3xl font-bold text-yellow-400 mb-4">
-                    MINT PRICE: 0.01776 ETH
+                    MINT PRICE: 0.02 ETH
                   </div>
                   <button
                     onClick={() => setShowMintForm(true)}
@@ -344,7 +344,7 @@ export default function Index() {
                 <div className="bg-gray-900 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-2xl font-bold mb-4 text-purple-400">Mint Your GOUL Shirt NFT</h3>
                   <div className="text-xl font-bold text-yellow-400 mb-4 text-center">
-                    MINT PRICE: 0.01776 ETH
+                    MINT PRICE: 0.02 ETH
                   </div>
           
                   <div className="mb-4 p-4 bg-gray-800 rounded border border-gray-600">
@@ -359,7 +359,7 @@ export default function Index() {
                           className="mr-3 mt-1"
                         />
                         <div>
-                          <span className="font-bold text-green-400">🎯 FULL PACKAGE - NFT + PHYSICAL SHIRT</span>
+                          <span className="font-bold text-green-400">FULL PACKAGE - NFT + PHYSICAL SHIRT</span>
                           <p className="text-sm text-gray-300 mt-1">Provide shipping info to receive both the NFT and the physical shirt delivered to your door!</p>
                         </div>
                       </label>
@@ -372,7 +372,7 @@ export default function Index() {
                           className="mr-3 mt-1"
                         />
                         <div>
-                          <span className="font-bold text-yellow-400">🖼️ NFT ONLY - ANON FRIENDLY</span>
+                          <span className="font-bold text-yellow-400">NFT ONLY - ANON FRIENDLY</span>
                           <p className="text-sm text-gray-300 mt-1">Stay anonymous, get the NFT! The physical shirt will be raffled off to patriots. TREMENDOUS!</p>
                         </div>
                       </label>
@@ -609,7 +609,7 @@ export default function Index() {
             <div className="bg-gray-900 p-6 rounded-lg border border-gray-700 max-w-md">
               <h3 className="text-xl font-bold mb-4 text-purple-400">Confirm Mint</h3>
               <div className="text-lg font-bold text-yellow-400 mb-4 text-center">
-                MINT PRICE: 0.01776 ETH
+                MINT PRICE: 0.02 ETH
               </div>
               <p className="mb-4 text-gray-300">
                 Are you sure you want to mint your GOUL Shirt NFT?
