@@ -274,7 +274,7 @@ export default function Index() {
           return (
             <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
               <div className="bg-gray-900 border border-purple-500 rounded-lg shadow-lg p-6 flex flex-col items-center">
-                <img src="/merchnftproto.jpg" alt="Your NFT" className="w-40 h-40 object-cover rounded mb-4 border-2 border-purple-500" />
+                <img src="/0703.gif" alt="Your NFT" className="w-40 h-40 object-cover rounded mb-4 border-2 border-purple-500" />
                 <div className="text-lg text-purple-300 mb-2 font-bold">Your NFT is minted!</div>
                 <div className="text-white mb-2">
                   Token ID(s): {Array.isArray(lastOrder.tokenIds) ? lastOrder.tokenIds.join(', ') : lastOrder.id}
