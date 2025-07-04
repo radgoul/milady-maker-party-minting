@@ -10,30 +10,39 @@ const adminWallets = [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
-  const wallet = url.searchParams.get("wallet")?.toLowerCase();
-  if (!wallet || !adminWallets.includes(wallet)) {
-    return json({ error: "Unauthorized" }, { status: 401 });
-  }
-  
   try {
     await dbConnect();
-    const orders = await OrderModel.find({}).sort({ timestamp: -1 }).lean();
-    return json({ orders });
+    
+    const url = new URL(request.url);
+    const wallet = url.searchParams.get("wallet");
+    
+    if (wallet === "0x3bdA56Ef07BF6F996F8E3deFDddE6C8109B7e7Be") {
+      // Admin wallet - return all orders
+      const orders = await OrderModel.find({}).sort({ createdAt: -1 });
+      return json({ orders });
+    } else {
+      return json({ error: "Unauthorized" }, { status: 401 });
+    }
   } catch (error) {
-    console.error("MongoDB connection error:", error);
-    return json({ error: "Database connection failed" }, { status: 500 });
+    console.error("Error fetching orders:", error);
+    return json({ error: "Failed to fetch orders" }, { status: 500 });
   }
 };
 
 export const action: ActionFunction = async ({ request }) => {
   try {
-    const data = await request.json();
     await dbConnect();
-    const order = await OrderModel.create(data);
-    return json({ order });
+    
+    const body = await request.json();
+    console.log("Received order data:", body);
+    
+    const order = new OrderModel(body);
+    await order.save();
+    
+    console.log("Order saved successfully:", order._id);
+    return json({ success: true, orderId: order._id });
   } catch (error) {
-    console.error("MongoDB save error:", error);
+    console.error("Error saving order:", error);
     return json({ error: "Failed to save order" }, { status: 500 });
   }
 }; 
