@@ -101,6 +101,9 @@ export function MintSection({ provider }: { provider?: Web3Provider }) {
     })();
   }, []);
 
+  // Security: Set maximum gas limit to prevent excessive gas attacks
+  const MAX_GAS_LIMIT = 500000; // Reasonable limit for NFT minting
+
   async function mintPublic() {
     if (!provider) {
       throw new Error("no provider!");
@@ -129,10 +132,18 @@ export function MintSection({ provider }: { provider?: Web3Provider }) {
         affiliateSigner,
         { value: price, gasLimit: 0 }
       );
-      estimatedGas = estimatedGasFromContract.toNumber();
+      estimatedGas = Math.min(estimatedGasFromContract.toNumber(), MAX_GAS_LIMIT);
     } catch (error) {
-      console.log("User has insufficient funds for mint");
+      console.log("User has insufficient funds for mint or gas estimation failed");
       console.log(error);
+      return; // Don't proceed if gas estimation fails
+    }
+
+    // Security: Verify the price is reasonable (less than 1 ETH per NFT)
+    const priceInEth = parseFloat(ethers.utils.formatEther(price));
+    if (priceInEth > 1.0) {
+      console.log("Price seems unusually high, aborting for safety");
+      return;
     }
 
     try {
@@ -141,7 +152,12 @@ export function MintSection({ provider }: { provider?: Web3Provider }) {
         quantity,
         affiliate,
         affiliateSigner,
-        { value: price, gasLimit: estimatedGas }
+        { 
+          value: price, 
+          gasLimit: estimatedGas,
+          maxFeePerGas: ethers.utils.parseUnits("50", "gwei"), // Reasonable gas price cap
+          maxPriorityFeePerGas: ethers.utils.parseUnits("2", "gwei")
+        }
       );
       console.log(`Transaction hash: ${tx.hash}`);
 

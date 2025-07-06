@@ -131,6 +131,11 @@ export default function Index() {
     }
   }, [showChess]);
 
+  // Enhanced validation function
+  const validateAndSanitizeInput = (input: string, maxLength: number = 100): string => {
+    return input.trim().substring(0, maxLength).replace(/[<>\"'&]/g, '');
+  };
+
   const handleMint = async () => {
     if (!isActive || !accounts?.[0]) {
       alert("Please connect your wallet first!");
@@ -138,26 +143,44 @@ export default function Index() {
     }
 
     if (!isAnonymous) {
-      // Validate shipping info
-      if (!shippingInfo.name || !shippingInfo.email || !shippingInfo.address || 
-          !shippingInfo.city || !shippingInfo.state || !shippingInfo.postalCode || !shippingInfo.size) {
+      // Enhanced validation with sanitization
+      const sanitizedName = validateAndSanitizeInput(shippingInfo.name, 100);
+      const sanitizedEmail = validateAndSanitizeInput(shippingInfo.email, 100);
+      const sanitizedAddress = validateAndSanitizeInput(shippingInfo.address, 200);
+      const sanitizedCity = validateAndSanitizeInput(shippingInfo.city, 50);
+      const sanitizedState = validateAndSanitizeInput(shippingInfo.state, 50);
+      const sanitizedPostalCode = validateAndSanitizeInput(shippingInfo.postalCode, 20);
+      
+      if (!sanitizedName || !sanitizedEmail || !sanitizedAddress || 
+          !sanitizedCity || !sanitizedState || !sanitizedPostalCode || !shippingInfo.size) {
         alert("Please fill in all required shipping information!");
         return;
       }
 
-      // Basic email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(shippingInfo.email)) {
+      // Enhanced email validation
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(sanitizedEmail)) {
         alert("Please enter a valid email address!");
         return;
       }
 
-      // Basic postal code validation (more flexible for international)
-      const postalRegex = /^[A-Za-z0-9\s\-]{3,10}$/;
-      if (!postalRegex.test(shippingInfo.postalCode)) {
+      // Enhanced postal code validation
+      const postalRegex = /^[A-Za-z0-9\s\-]{3,20}$/;
+      if (!postalRegex.test(sanitizedPostalCode)) {
         alert("Please enter a valid postal code!");
         return;
       }
+
+      // Update shipping info with sanitized values
+      setShippingInfo({
+        ...shippingInfo,
+        name: sanitizedName,
+        email: sanitizedEmail,
+        address: sanitizedAddress,
+        city: sanitizedCity,
+        state: sanitizedState,
+        postalCode: sanitizedPostalCode
+      });
     }
 
     setShowConfirmation(true);

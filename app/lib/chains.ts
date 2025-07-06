@@ -52,16 +52,19 @@ export function getAddChainParameters(
   }
 }
 
-const tempInfuraKey = "bca3e14eb76a46028bf28647abfc793a";
-
-const getInfuraUrlFor = (network: string) =>
-  tempInfuraKey
-    ? // ? `https://${network}.infura.io/v3/${process.env.infuraKey}`
-      `https://${network}.infura.io/v3/${tempInfuraKey}`
+const getInfuraUrlFor = (network: string) => {
+  const infuraKey = process.env.INFURA_PROJECT_ID || process.env.INFURA_KEY;
+  return infuraKey
+    ? `https://${network}.infura.io/v3/${infuraKey}`
     : "";
+};
 
-const getAlchemyUrlFor = (network: string) =>
-  tempInfuraKey ? `https://${network}.alchemyapi.io/v2/${tempInfuraKey}` : "";
+const getAlchemyUrlFor = (network: string) => {
+  const alchemyKey = process.env.ALCHEMY_API_KEY;
+  return alchemyKey
+    ? `https://${network}.alchemyapi.io/v2/${alchemyKey}`
+    : "";
+};
 
 type ChainConfig = {
   [chainId: number]: BasicChainInformation | ExtendedChainInformation;
